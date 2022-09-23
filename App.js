@@ -22,6 +22,7 @@ export default function App() {
   function limpar() {
     setSenha('')
     setBotao(true);
+    setTamanhoSenha(10);
   }
 
   return (
@@ -109,7 +110,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 10,
     width: '90%',
-    backgroundColor: '#33b2ff'
+    backgroundColor: '#33b2ff',
+    borderWidth: 0
   },
   textBotao: {
     fontSize: 18,
@@ -145,6 +147,7 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#0050b2',
     marginLeft: 20,
-    marginRight: 20
+    marginRight: 20,
+    borderWidth: 0
   }
 });
