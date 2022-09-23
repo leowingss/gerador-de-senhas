@@ -5,7 +5,24 @@ import Feather from 'react-native-vector-icons/Feather'
 
 export default function App() {
 
-  const [tamanhoSenha, setTamanhoSenha] = useState(6);
+  const [tamanhoSenha, setTamanhoSenha] = useState(10);
+  const [senha, setSenha] = useState('');
+  const [botao, setBotao] = useState(true);
+
+  function gerarSenha() {
+    const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789?!@#$';
+    let pass = '';
+    for (let i = 0; i < tamanhoSenha; i++) {
+      pass += charset.charAt(Math.floor(Math.random() * charset.length))
+    }
+    setSenha(pass);
+    setBotao(false);
+  }
+
+  function limpar() {
+    setSenha('')
+    setBotao(true);
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -26,19 +43,35 @@ export default function App() {
           maximumTrackTintColor={'#fff'}
           minimumTrackTintColor={'#085eff'}
           thumbTintColor={'#085eff'}
-
           value={tamanhoSenha}
           onValueChange={(valor) => setTamanhoSenha(valor)}
 
         />
 
 
-        <Text style={styles.caracteres}>Tamhanho: {tamanhoSenha.toFixed()} caracteres</Text>
-        <TouchableOpacity style={styles.botao}>
-          <Text style={styles.textBotao}>Gerar Senha</Text>
-        </TouchableOpacity>
+        <Text style={styles.caracteres}>Tamanho: {tamanhoSenha.toFixed()} caracteres</Text>
+
+        {botao && (
+          <TouchableOpacity style={styles.botao} onPress={gerarSenha}>
+            <Text style={styles.textBotao}>Gerar Senha</Text>
+          </TouchableOpacity>
+        )}
+
+
       </View>
 
+      {senha.length > 0 && (
+        <View style={styles.areaResultado}>
+          <Text style={styles.textResultado}>Sua senha gerada foi: </Text>
+          <Text style={styles.senha}>{senha}</Text>
+        </View>
+      )}
+
+      {senha.length != 0 && (
+        <TouchableOpacity style={styles.botaoLimpar} onPress={limpar}>
+          <Text style={styles.textBotao}>LIMPAR</Text>
+        </TouchableOpacity>
+      )}
 
 
     </SafeAreaView>
@@ -53,7 +86,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#102841',
     justifyContent: 'center',
-    paddingBottom: 90
+    paddingBottom: 90,
   },
   titulo: {
     color: '#33b2ff',
@@ -81,5 +114,37 @@ const styles = StyleSheet.create({
   textBotao: {
     fontSize: 18,
     color: '#fff'
+  },
+  areaResultado: {
+    backgroundColor: "#121212",
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+    height: 90,
+    marginLeft: 20,
+    marginRight: 20,
+    borderRadius: 5,
+    // opacity: .5,
+  },
+  textResultado: {
+    color: '#fff',
+    fontSize: 18,
+  },
+  senha: {
+    fontSize: 19,
+    color: '#fff',
+    fontWeight: 'bold'
+  },
+  botaoLimpar: {
+    marginTop: 20,
+    height: 45,
+    borderWidth: 1,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+    backgroundColor: '#0050b2',
+    marginLeft: 20,
+    marginRight: 20
   }
 });
